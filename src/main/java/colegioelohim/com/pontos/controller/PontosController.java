@@ -3,20 +3,21 @@ package colegioelohim.com.pontos.controller;
 
 import colegioelohim.com.pontos.dtos.BaterPontoRequestDTO;
 import colegioelohim.com.pontos.dtos.BaterPontoResponseDTO;
+import colegioelohim.com.pontos.dtos.PontoResponseDTO;
 import colegioelohim.com.pontos.entities.PontosEntity;
 import colegioelohim.com.pontos.services.PontoService;
 import io.quarkus.security.Authenticated;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Path("/pontos")
 @Authenticated
@@ -25,7 +26,22 @@ import java.util.Map;
 public class PontosController {
 
     @Inject
+    JsonWebToken jwt;
+
+    @Inject
     PontoService pontoService;
+
+    @GET
+    @RolesAllowed({"ADMIN", "USER"})
+    public Response listarMeusPontos() {
+        UUID usuarioId = UUID.fromString(jwt.getSubject());
+
+        List<PontoResponseDTO> pontos =
+                pontoService.listarPontosDoUsuario(usuarioId);
+
+        return Response.ok(pontos).build();
+    }
+
 
     @POST
     @RolesAllowed({"ADMIN", "USER"})

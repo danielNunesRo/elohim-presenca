@@ -3,7 +3,9 @@ package colegioelohim.com.pontos.services;
 import colegioelohim.com.local.entities.LocalEntity;
 import colegioelohim.com.local.service.LocalService;
 import colegioelohim.com.pontos.dtos.BaterPontoRequestDTO;
+import colegioelohim.com.pontos.dtos.PontoResponseDTO;
 import colegioelohim.com.pontos.entities.PontosEntity;
+import colegioelohim.com.pontos.repository.PontosRepository;
 import colegioelohim.com.users.entities.UserEntity;
 import colegioelohim.com.utils.GeoUtils;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -12,6 +14,7 @@ import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -22,6 +25,20 @@ public class PontoService {
 
     @Inject
     JsonWebToken jwt;
+
+    @Inject
+    PontosRepository repository;
+
+    public List<PontoResponseDTO> listarPontosDoUsuario(UUID usuarioId) {
+        return repository.findByUsuarioId(usuarioId)
+                .stream()
+                .map(p -> new PontoResponseDTO(
+                        p.dataHora,
+                        p.valido,
+                        p.motivoInvalidacao
+                ))
+                .toList();
+    }
 
     @Transactional
     public PontosEntity baterPonto(BaterPontoRequestDTO dto) {
