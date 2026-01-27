@@ -10,7 +10,7 @@ public class JwtService {
     public String generateToken(UserEntity user) {
         return Jwt.issuer("colegio-elohim").subject(user.id.toString())
                 .claim("email", user.email)
-                .claim("role", user.role)
+                .claim("groups", user.role.name())
                 .claim("nome", user.nome)
                 .expiresIn(3600)
                 .sign();
