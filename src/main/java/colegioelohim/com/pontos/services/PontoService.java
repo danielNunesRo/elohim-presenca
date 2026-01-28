@@ -29,6 +29,14 @@ public class PontoService {
     @Inject
     PontosRepository repository;
 
+    public List<PontoResponseDTO> listarPontos(UUID usuarioId) {
+        return repository.findByUsuarioId(usuarioId).stream()
+                .map(p -> new  PontoResponseDTO(p.dataHora,
+                        p.valido,
+                        p.motivoInvalidacao))
+                .toList();
+    }
+
     public List<PontoResponseDTO> listarPontosDoUsuario(UUID usuarioId) {
         return repository.findByUsuarioId(usuarioId)
                 .stream()

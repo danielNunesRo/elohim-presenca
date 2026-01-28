@@ -32,6 +32,14 @@ public class PontosController {
     PontoService pontoService;
 
     @GET
+    @Path("/all")
+    @RolesAllowed({"ADMIN"})
+    public Response listPontosUsuario(@QueryParam("usuarioId") UUID usuarioId) {
+        List<PontoResponseDTO> pontosDoUsuario = pontoService.listarPontosDoUsuario(usuarioId);
+        return Response.ok(pontosDoUsuario).build();
+    }
+
+    @GET
     @RolesAllowed({"ADMIN", "USER"})
     public Response listarMeusPontos() {
         UUID usuarioId = UUID.fromString(jwt.getSubject());
