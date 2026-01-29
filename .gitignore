@@ -47,3 +47,6 @@ nb-configuration.xml
 # Keys
 src/main/resources/keys/privateKey.pem
 src/main/resources/keys/publicKey.pem
+
+# Quarkus profiles local
+application-staging.properties
