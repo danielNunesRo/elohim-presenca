@@ -13,6 +13,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -67,12 +68,12 @@ public class PontoService {
         );
 
         boolean dentroDaArea = distancia <= local.raioPermitidoMetros;
-        ZoneId zone = ZoneId.of("America/Sao_Paulo");
+
 
         PontosEntity ponto = new PontosEntity();
         ponto.usuario = usuario;
         ponto.local = local;
-        ponto.dataHora = ZonedDateTime.now(zone).toLocalDateTime();
+        ponto.dataHora = LocalDateTime.now();
         ponto.latitude = dto.latitude;
         ponto.longitude = dto.longitude;
         ponto.valido = dentroDaArea;
