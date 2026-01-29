@@ -68,12 +68,13 @@ public class PontoService {
         );
 
         boolean dentroDaArea = distancia <= local.raioPermitidoMetros;
+        LocalDateTime horaSubtraida = LocalDateTime.now().minusHours(3);
 
 
         PontosEntity ponto = new PontosEntity();
         ponto.usuario = usuario;
         ponto.local = local;
-        ponto.dataHora = LocalDateTime.now();
+        ponto.dataHora = horaSubtraida;
         ponto.latitude = dto.latitude;
         ponto.longitude = dto.longitude;
         ponto.valido = dentroDaArea;
