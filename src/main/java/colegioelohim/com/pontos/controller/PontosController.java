@@ -32,6 +32,29 @@ public class PontosController {
     PontoService pontoService;
 
     @GET
+    @Path("/admin/relatorio")
+    @RolesAllowed("ADMIN")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response exportarExcelUsuario(@QueryParam("usuarioId") UUID usuarioId) {
+
+        if (usuarioId == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Parâmetro usuarioId é obrigatório")
+                    .build();
+        }
+
+        byte[] excel = pontoService.gerarExcelUsuario(usuarioId);
+        String nomeUsuario = jwt.getClaim("nome");
+
+        return Response.ok(excel)
+                .header(
+                        "Content-Disposition",
+                        "attachment; filename=pontos-" + nomeUsuario + ".xlsx"
+                )
+                .build();
+    }
+
+    @GET
     @Path("/all")
     @RolesAllowed({"ADMIN"})
     public Response listPontosUsuario(@QueryParam("usuarioId") UUID usuarioId) {
