@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -182,7 +183,7 @@ public class PontoService {
                 UUID.fromString(jwt.getSubject())
         );
 
-        LocalEntity local = localService.getLocalPadrao();
+        LocalEntity local = localService.getLocalPadrao(usuario.localUser.id);
 
         double distancia = GeoUtils.calcularDistanciaMetros(
                 local.latitude,

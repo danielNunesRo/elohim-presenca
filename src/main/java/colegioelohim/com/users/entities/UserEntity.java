@@ -1,5 +1,6 @@
 package colegioelohim.com.users.entities;
 
+import colegioelohim.com.local.entities.LocalEntity;
 import colegioelohim.com.users.enums.UserRole;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
@@ -26,6 +27,10 @@ public class UserEntity extends PanacheEntityBase {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     public UserRole role;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "local_id", nullable = false)
+    public LocalEntity localUser;
 
     @Column(nullable = false)
     public boolean ativo = true;
