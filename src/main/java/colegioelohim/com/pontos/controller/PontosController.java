@@ -34,7 +34,7 @@ public class PontosController {
     @GET
     @Path("/admin/relatorio")
     @RolesAllowed("ADMIN")
-    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    @Produces("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     public Response exportarExcelUsuario(@QueryParam("usuarioId") UUID usuarioId) {
 
         if (usuarioId == null) {
