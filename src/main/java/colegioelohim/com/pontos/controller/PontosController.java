@@ -42,11 +42,12 @@ public class PontosController {
                     .entity("Parâmetro usuarioId é obrigatório")
                     .build();
         }
-
         byte[] excel = pontoService.gerarExcelUsuario(usuarioId);
         String nomeUsuario = jwt.getClaim("nome");
 
         return Response.ok(excel)
+                .header("Content-Type",
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 .header(
                         "Content-Disposition",
                         "attachment; filename=pontos-" + nomeUsuario + ".xlsx"
